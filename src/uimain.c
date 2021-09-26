@@ -8,32 +8,31 @@
 int main ()
 {
   List *history = init_history();
-  char input [100];
+  char word[100];
 
   do{
     printf ("Input a string to tokenize it or !<nums> for a special number, !h for full history, !q to quit:\n");
 
     // Gets input
-    fgets (input, 100, stdin);
+    fgets (word, 100, stdin);
 
     // !<nums> - special num
-    if (input[0] == '!' && isdigit(input[1])){
-      printf ("You selected special number\n");
+    if (word[0] == '!' && isdigit(word[1])){
+      int val = (int)(word[1]);
+      printf ("%s\n", get_history (history, val));
     }
     // !h - full history
-    else if (strcmp (input, "!h\n") == 0){
+    else if (strcmp (word, "!h\n") == 0){
       printf ("You selected full history\n");
       print_history(history);
     }
     // !q - quit
-    else if (strcmp (input, "!q\n") == 0){
+    else if (strcmp (word, "!q\n") == 0){
       goto done;
     }
     // Tokenize string
     else {
       printf ("You selected to tokenize\n");
-      
-      char *word = input;
 
       printf ("Original sting is %s\n", word);
 

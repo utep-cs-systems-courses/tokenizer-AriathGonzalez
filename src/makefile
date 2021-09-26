@@ -6,7 +6,7 @@ all: tokenizer
 
 # Include file dependencies
 tokenizer.o: tokenizer.h
-history.o: history.h
+history.o: history.h tokenizer.h
 uimain.o: tokenizer.h history.h
 
 # $@=target, $^=prerequisites

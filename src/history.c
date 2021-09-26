@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "history.h"
+#include "tokenizer.h"
 
 List* init_history ()
 {
@@ -13,46 +14,51 @@ List* init_history ()
 
 void add_history (List *list, char *str)
 {
-  printf ("How about in here?");
   Item *currNode = list->root;
   Item *newNode = (Item*) malloc(sizeof(Item));
-  newNode->str = str;
+  newNode->next = NULL;
 
-  // If first item
-  if (currNode->next == NULL){
-    printf ("Did you get here by chance?");
-    // Create a head
-    newNode->id = 1;
+  // If first item in list
+  if(currNode == NULL){
     list->root = newNode;
-    newNode->next = NULL;
+    newNode->id = 1;
   }
-  // Insert to the end of the list
-  else {
-    while (currNode->next != NULL){
+  // Insert to end of list 
+  else{
+    while(currNode->next != NULL){
       currNode = currNode->next;
     }
     currNode->next = newNode;
     newNode->id = currNode->id + 1;
-    newNode->next = NULL;
   }
+  // Copy string
+  int len = 0;
+  while(*str != '\0'){
+    len++;
+    str++;
+  }
+  str = str-len;
+  char *copyStr = copy_str(str, len);
+  
+  newNode->str = copyStr;
 }
 
 char *get_history (List *list, int id)
 {
+  printf ("In get_history, id: %c", id);
   Item *currNode = list->root;
 
   // If history is empty
-  if (currNode->next == NULL)
+  if (currNode == NULL)
     return "History is empty";
-  
-  while (currNode->next != NULL){
+
+  // Traverse list for it
+  while (currNode != NULL){
+    printf ("Curr id is: %d", currNode->id);
     if (currNode->id = id)
       return currNode->str;
+    currNode = currNode->next;
   }
-  // Final Check
-  if (currNode->id = id)
-    return currNode->str;
-  
   return "No such ID";  // ID doesn't exist 
   
 }
@@ -61,10 +67,8 @@ void print_history (List *list)
 {
   Item *currNode = list->root;
 
-  while (currNode->next != NULL){
-    printf ("%s\n", currNode->str);
+  while (currNode != NULL){
+    printf ("%i %s\n", currNode->id, currNode->str);
     currNode = currNode->next;
   }
-  printf ("%s\n", currNode->str);
-  
 }
