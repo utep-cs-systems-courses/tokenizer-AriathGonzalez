@@ -18,24 +18,20 @@ int main ()
 
     // !<nums> - special num
     if (word[0] == '!' && isdigit(word[1])){
-      int val = (int)(word[1]);
-      printf ("%s\n", get_history (history, val));
+      int val = atoi (word + 1);
+      printf ("H[%d] %s\n", val,  get_history (history, val));
     }
     // !h - full history
     else if (strcmp (word, "!h\n") == 0){
-      printf ("You selected full history\n");
       print_history(history);
     }
     // !q - quit
     else if (strcmp (word, "!q\n") == 0){
+      free_history(history);
       goto done;
     }
     // Tokenize string
     else {
-      printf ("You selected to tokenize\n");
-
-      printf ("Original sting is %s\n", word);
-
       char **tokens = tokenize (word);
       print_tokens(tokens);
       free_tokens(tokens);

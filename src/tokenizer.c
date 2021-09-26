@@ -104,9 +104,11 @@ char **tokenize(char *str)
 void print_tokens(char **tokens)
 {
   printf ("---- Printing tokens ----\n");
- 
+
+  int count = 0;
   while (*tokens != 0){
-    printf ("%s\n", *tokens);
+    printf ("[%d] %s\n", count, *tokens);
+    count++;
     tokens++;
   }
 }

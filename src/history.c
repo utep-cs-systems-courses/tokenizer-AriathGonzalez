@@ -21,7 +21,7 @@ void add_history (List *list, char *str)
   // If first item in list
   if(currNode == NULL){
     list->root = newNode;
-    newNode->id = 1;
+    newNode->id = 0;
   }
   // Insert to end of list 
   else{
@@ -33,10 +33,12 @@ void add_history (List *list, char *str)
   }
   // Copy string
   int len = 0;
+  
   while(*str != '\0'){
     len++;
     str++;
   }
+  
   str = str-len;
   char *copyStr = copy_str(str, len);
   
@@ -45,7 +47,6 @@ void add_history (List *list, char *str)
 
 char *get_history (List *list, int id)
 {
-  printf ("In get_history, id: %c", id);
   Item *currNode = list->root;
 
   // If history is empty
@@ -54,11 +55,11 @@ char *get_history (List *list, int id)
 
   // Traverse list for it
   while (currNode != NULL){
-    printf ("Curr id is: %d", currNode->id);
-    if (currNode->id = id)
+    if (currNode->id == id)
       return currNode->str;
     currNode = currNode->next;
   }
+  
   return "No such ID";  // ID doesn't exist 
   
 }
@@ -68,7 +69,18 @@ void print_history (List *list)
   Item *currNode = list->root;
 
   while (currNode != NULL){
-    printf ("%i %s\n", currNode->id, currNode->str);
+    printf ("H[%d] %s\n", currNode->id, currNode->str);
     currNode = currNode->next;
+  }
+}
+
+void free_history (List *list)
+{
+  Item *currNode;
+
+  while (list->root != NULL){
+    currNode = list->root;
+    list->root = list->root->next;
+    free(currNode);
   }
 }
