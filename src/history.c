@@ -34,13 +34,14 @@ void add_history (List *list, char *str)
   // Copy string
   int len = 0;
   
-  while(*str != '\0'){
+  while (*str != '\0'){
     len++;
     str++;
   }
   
   str = str-len;
-  char *copyStr = copy_str(str, len);
+  char *copyStr = (char*) malloc(sizeof(char));
+  copyStr = copy_str(str, len);
   
   newNode->str = copyStr;
 }
@@ -81,6 +82,8 @@ void free_history (List *list)
   while (list->root != NULL){
     currNode = list->root;
     list->root = list->root->next;
+    free(currNode->str);
     free(currNode);
   }
+  free(list);
 }
